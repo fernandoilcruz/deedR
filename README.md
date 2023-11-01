@@ -1,2 +1,4 @@
 # DEEDadosR
-Download data from Rio Grande do Sul state using DEEDados API
+Download socioeconomic data for the state of Rio Grande do Sul using DEEDados API.
+
+
