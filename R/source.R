@@ -14,5 +14,6 @@ source <-
       "https://dados.dee.rs.gov.br/api/fonte.php"
     )
 
-    jsonlite::fromJSON(x)
+    jsonlite::fromJSON(x) |>
+      tibble::as_tibble()
   }

@@ -4,6 +4,9 @@
 #' @param contains Optional. A character string to filter from the list of variables.
 #'
 #' @return a tibble
+#'
+#' @import httr tidyverse
+#'
 #' @export
 #'
 #' @examples
@@ -39,10 +42,10 @@ vars <-
     #Return vars list
     if(is.null(contains)){
       vars_list <- jsonlite::fromJSON(url) |>
-        as_tibble()
+        tibble::as_tibble()
     }else{
       vars_list <- jsonlite::fromJSON(url) |>
-        as_tibble() |>
+        tibble::as_tibble() |>
         dplyr::filter(stringr::str_detect(string = nome,pattern = contains))
     }
 

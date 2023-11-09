@@ -2,16 +2,18 @@
 #'
 #' @description Check ID and name of geographic aggregations. For municipalities, latitude and longitude are also available.
 #'
-#' @param ag Aggregation category. There are  four valid options:
+#' @param ag String. The aggregation category. There are  four valid options:
 #' * "municipio" (the default): for municipalities.
 #' * "corede": for coredes, a state-specific planning regionalization.
 #' * "meso": for IBGE's mesoregions.
 #' * "micro": for IBGE's microregions.
 #'
-#' @param sort This is used for sorting names from A to Z ("ASC") or Z to A ("DESC").Default is "ASC".
+#' @param sort String. This is used for sorting names from A to Z ("ASC") or Z to A ("DESC").Default is "ASC".
 #'
 #' @return a data.frame.
 #' @export
+#'
+#' @import jsonlite
 #'
 #' @examples
 #' geoagreg()
@@ -19,8 +21,13 @@
 #' geoagreg(ag = "corede", sort = "DESC")
 #'
 geoagreg <-
-  function(ag,
-           sort){
+  function(ag = "municipio",
+           sort = NULL){
+
+    #check arguments
+
+
+
 
     ag <- ifelse(missing(ag),"municipio",ag)
 
@@ -33,5 +40,6 @@ geoagreg <-
       "sort=",sort
     )
 
-    jsonlite::fromJSON(x)
+    jsonlite::fromJSON(x) |>
+      as_tibble()
   }

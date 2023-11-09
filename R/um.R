@@ -14,5 +14,6 @@ um <-
       "https://dados.dee.rs.gov.br/api/unid_medida.php"
     )
 
-    jsonlite::fromJSON(x)
+    jsonlite::fromJSON(x) |>
+      tibble::as_tibble()
   }
