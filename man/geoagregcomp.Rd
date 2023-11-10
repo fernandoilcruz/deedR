@@ -7,9 +7,8 @@
 geoagregcomp(ag, id, period)
 }
 \arguments{
-\item{ag}{Aggregation category. There are  four valid options:
+\item{ag}{Aggregation category. There are  three valid options:
 \itemize{
-\item "municipio" (the default): for municipalities.
 \item "corede": for coredes, a state-specific planning regionalization.
 \item "meso": for IBGE's mesoregions.
 \item "micro": for IBGE's microregions.
@@ -23,9 +22,9 @@ geoagregcomp(ag, id, period)
 data.frame
 }
 \description{
-The geographic aggregation composition
+The geographic aggregation composition. Be aware that municipalities do not have
 }
 \examples{
-geoagregcomp(ag = "municipio", id = 22, period = 2004)
+geoagregcomp(ag = "meso", id = 10, period = 2020)
 
 }

@@ -4,10 +4,10 @@
 \alias{geoagreg}
 \title{Geographic Aggregation}
 \usage{
-geoagreg(ag, sort)
+geoagreg(ag = "municipio", sort = "ASC")
 }
 \arguments{
-\item{ag}{Aggregation category. There are  four valid options:
+\item{ag}{Character. The aggregation category. There are  four valid options:
 \itemize{
 \item "municipio" (the default): for municipalities.
 \item "corede": for coredes, a state-specific planning regionalization.
@@ -15,7 +15,7 @@ geoagreg(ag, sort)
 \item "micro": for IBGE's microregions.
 }}
 
-\item{sort}{This is used for sorting names from A to Z ("ASC") or Z to A ("DESC").Default is "ASC".}
+\item{sort}{Character. This is used for sorting names from A to Z ("ASC") or Z to A ("DESC").Default is "ASC".}
 }
 \value{
 a data.frame.

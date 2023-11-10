@@ -7,15 +7,16 @@
 vardetails(id)
 }
 \arguments{
-\item{id}{}
+\item{id}{Variable's ID. It can be a single string or a vector.}
 }
 \value{
-A list
+A tibble
 }
 \description{
 Check the details of a variable, by searching for it's id.
 }
 \examples{
 vardetails(id = 4049)
+vardetails(id = c(4049,4031))
 
 }

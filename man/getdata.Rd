@@ -4,14 +4,20 @@
 \alias{getdata}
 \title{Download data from DEEDados}
 \usage{
-getdata(id = id, ag = ag, period = periodo, sort = "ASC")
+getdata(id, ag, period, sort = "ASC")
 }
 \arguments{
 \item{id}{The variable's ID.}
 
-\item{ag}{The regional aggregation. One of "municipio", "corede", "microrregiao", "mesorregiao".}
+\item{ag}{The regional aggregation. There are  four valid options:
+\itemize{
+\item "municipio" (the default): for municipalities.
+\item "corede": for coredes, a state-specific planning regionalization.
+\item "meso": for IBGE's mesoregions.
+\item "micro": for IBGE's microregions.
+}}
 
-\item{period}{The year to consult.}
+\item{period}{The year to consult. It allows single string (ex:2010), vector(ex:c(2010,2022) or "all")}
 
 \item{sort}{If the user wants to sort from "ASC" for ascendent order or "DESC" for descendent order. Default is "ASC".}
 }
@@ -19,11 +25,15 @@ getdata(id = id, ag = ag, period = periodo, sort = "ASC")
 a data.frame
 }
 \description{
-This function allows the user to download data from DEEDados API.
+This function allows the user to download data from DEEDados API using R.
 }
 \examples{
+#Example 1
 my_data <- getdata(id = 4845,ag = "corede",period = c(2016,2017))
 print(my_data)
 print(my_data$data)
+
+#Example 2
+my_data <- getdata(id = 4845,ag = "corede",period = "all")
 
 }
