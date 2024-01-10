@@ -14,19 +14,3 @@ library(devtools)
 devtools::install_github("fernandoilcruz/DEEDadosR")
 ```
 
-
-## List of functions
-
-
-
-
-x<- read_delim("ftp://ftp.mtps.gov.br/pdet/microdados/NOVO%20CAGED/2020/202001/CAGEDMOV202001.7z")
-
-url <- "ftp://ftp.mtps.gov.br/pdet/microdados/NOVO%20CAGED/2020/202001/CAGEDMOV202001.7z"
-
-download.file(url, destfile = tempfile())
-
-unzip()
-unlink()
-
-https://stackoverflow.com/questions/3053833/using-r-to-download-zipped-data-file-extract-and-import-data
