@@ -4,10 +4,10 @@
 \alias{getdata}
 \title{Download data from DEEDados}
 \usage{
-getdata(id, ag, period, sort = "ASC")
+getdata(var_id, ag, period = "all", sort = "ASC", add_labels = FALSE)
 }
 \arguments{
-\item{id}{The variable's ID.}
+\item{var_id}{The variable's ID.}
 
 \item{ag}{The regional aggregation. There are  four valid options:
 \itemize{
@@ -20,6 +20,8 @@ getdata(id, ag, period, sort = "ASC")
 \item{period}{The year to consult. It allows single string (ex:2010), vector(ex:c(2010,2022) or "all")}
 
 \item{sort}{If the user wants to sort from "ASC" for ascendent order or "DESC" for descendent order. Default is "ASC".}
+
+\item{add_labels}{Allows the user to add labels to the results}
 }
 \value{
 a data.frame
@@ -29,11 +31,12 @@ This function allows the user to download data from DEEDados API using R.
 }
 \examples{
 #Example 1
-my_data <- getdata(id = 4845,ag = "corede",period = c(2016,2017))
+my_data <- getdata(var_id = 4845,ag = "corede",period = c(2016,2017))
 print(my_data)
 print(my_data$data)
 
 #Example 2
-my_data <- getdata(id = 4845,ag = "corede",period = "all")
+my_data <- getdata(var_id = 4845,ag = "corede",period = "all")
+my_data <- getdata(var_id = 1686,ag = "corede",period = c(2010:2015))
 
 }

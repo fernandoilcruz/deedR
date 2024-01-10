@@ -4,12 +4,12 @@
 \alias{vars}
 \title{List, filter and sort variables' ID and name}
 \usage{
-vars(sort = NULL, contains = NULL)
+vars(contains = NULL, sort = "ASC")
 }
 \arguments{
-\item{sort}{Optional. A character string. Either "ASC" to sort from A to Z or "DESC" to sort from Z to A.}
-
 \item{contains}{Optional. A character string to filter from the list of variables.}
+
+\item{sort}{Optional. A character string. Either "ASC" to sort from A to Z or "DESC" to sort from Z to A.}
 }
 \value{
 a tibble

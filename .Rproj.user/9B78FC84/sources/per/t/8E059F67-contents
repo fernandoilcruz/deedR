@@ -1,8 +1,8 @@
 #' Geographic Aggregation Composition
 #'
-#' @description The geographic aggregation composition. Be aware that municipalities do not have
+#' @description The geographic aggregation composition. Because municipalities are the minimum aggregation level available
 #'
-#' @param ag Aggregation category. There are  three valid options:
+#' @param ag A character. The aggregation category. There are  three valid options:
 #' * "corede": for coredes, a state-specific planning regionalization.
 #' * "meso": for IBGE's mesoregions.
 #' * "micro": for IBGE's microregions.

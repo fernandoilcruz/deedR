@@ -1,0 +1,13 @@
+utils::globalVariables(c("descricao",
+                         "geo_id",
+                         "geo_name",
+                         "id",
+                         "id_fontes",
+                         "nome",
+                         "note",
+                         "nr_casasdecimais",
+                         "tp_var",
+                         "unit",
+                         "value",
+                         "var_name",
+                         "year"))

@@ -2,7 +2,7 @@
 #'
 #' @description This function allows the user to download data from DEEDados API using R.
 #'
-#' @param id The variable's ID.
+#' @param var_id The variable's ID.
 #' @param ag The regional aggregation. There are  four valid options:
 #' * "municipio" (the default): for municipalities.
 #' * "corede": for coredes, a state-specific planning regionalization.
@@ -10,40 +10,115 @@
 #' * "micro": for IBGE's microregions.
 #' @param period The year to consult. It allows single string (ex:2010), vector(ex:c(2010,2022) or "all")
 #' @param sort If the user wants to sort from "ASC" for ascendent order or "DESC" for descendent order. Default is "ASC".
+#' @param add_labels Allows the user to add labels to the results
 #'
 #' @return a data.frame
+#'
+#' @import jsonlite tidyverse
+#' @importFrom utils data
+#'
+#'
+#'
 #' @export
 #'
 #' @examples
 #' #Example 1
-#' my_data <- getdata(id = 4845,ag = "corede",period = c(2016,2017))
+#' my_data <- getdata(var_id = 4845,ag = "corede",period = c(2016,2017))
 #' print(my_data)
 #' print(my_data$data)
 #'
 #' #Example 2
-#' my_data <- getdata(id = 4845,ag = "corede",period = "all")
+#' my_data <- getdata(var_id = 4845,ag = "corede",period = "all")
+#' my_data <- getdata(var_id = 1686,ag = "corede",period = c(2010:2015))
 #'
 getdata <-
-  function(id,
+  function(var_id,
            ag,
-           period,
-           sort = "ASC"){
+           period = "all",
+           sort = "ASC",
+           add_labels = FALSE){
 
-    periodo <- period
 
-    x <- paste0("https://dados.dee.rs.gov.br/api/data.php?",
-                "id=",
-                id,
-                "&ag=",
-                ag,
-                "&periodo=",
-                period |> paste0(collapse = ","),
-                "&sort=",
-                sort
-    ) |>
-      jsonlite::fromJSON() |>
-      tidyr::unnest(cols = data)
+    #check available arguments
+    if(missing(var_id)){stop("Error: Select a valid argument for var_id. You can use the var() and vardetails() functions to see the available options")}
+
+    ags <- c("municipio", "corede", "meso", "micro")
+    if((missing(ag)) || (!ag %in% ags)){stop(paste0("Error: Select a valid argument for ag. The ag argument is only available for "),
+                          paste(ags, collapse = ", "))}
+
+    #if(missing(period)){stop("Error: Select a valid argument for period")}
+
+    #treat var_id
+    if(any(var_id == "all")){
+      var_id <- vars() |> dplyr::select(var_id) |> dplyr::pull()
+    }
+
+    #ARGUMENTO FORÇADO####################################ALOOOOOOOOW
+    # var_id <- c(3755, 4784)
+    # ag = "municipio"
+    # period = "all"
+    # sort = "ASC"
+
+    #output
+    x<-
+    var_id |>
+      purrr::map_df(function(z){
+        paste0("https://dados.dee.rs.gov.br/api/data.php?",
+               "id=",
+               z,
+               "&ag=",
+               ag,
+               "&periodo=",
+               period |> paste0(collapse = ","),
+               "&sort=",
+               sort
+        ) |>
+          jsonlite::fromJSON() |>
+          tidyr::unnest(cols = data) |>
+          dplyr::mutate(var_id = z)
+      })
+
+    x <-
+      x |>
+      dplyr::rename("geo_id" = "id",
+                    "year" = "ano",
+                    "value" = "valor",
+                    "unit" = "un_medida",
+                    "note" = "nota") |>
+      dplyr::select(var_id,geo_id,year,value, unit, note)
+
+
+    #add labels
+    vars1 <- vars()
+    geos1 <- geoagreg(ag = ag)
+
+    if(add_labels == TRUE){
+      x <-
+        x |>
+        dplyr::left_join(vars1,
+                         by = c("var_id" = "var_id")) |>
+        dplyr::left_join(geos1,
+                         by = c("geo_id" = "geo_id")) |>
+        dplyr::select(var_id, var_name, geo_id, geo_name, year, value, unit, note)
+    }
 
     return(x)
 
   }
+
+
+#teste
+# inicio <- Sys.time()
+# getdata(var_id = c(3755,4784), ag = "municipio")
+# fim <- Sys.time()
+# tempo <- fim-inicio
+
+# inicio <- Sys.time()
+# teste <- vars() |> dplyr::select(var_id) |> dplyr::pull()
+# getdata(var_id = "all", ag = "meso")
+# fim <- Sys.time()
+# tempo <- fim-inicio
+# library(beepr)
+# beep(sound = 3)
+
+#to do: add_labels = TRUE

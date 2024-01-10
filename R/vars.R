@@ -5,7 +5,7 @@
 #'
 #' @return a tibble
 #'
-#' @import httr tidyverse
+#' @import httr jsonlite tidyverse
 #'
 #' @export
 #'
@@ -20,8 +20,9 @@
 #'
 #'
 vars <-
-  function(sort=NULL,
-           contains = NULL){
+  function(
+    contains = NULL,
+    sort="ASC"){
 
     #Return url
     if(is.null(sort)){
@@ -42,11 +43,15 @@ vars <-
     #Return vars list
     if(is.null(contains)){
       vars_list <- jsonlite::fromJSON(url) |>
-        tibble::as_tibble()
+        tibble::as_tibble() |>
+        dplyr::rename(var_id = id,
+                      var_name = nome)
     }else{
       vars_list <- jsonlite::fromJSON(url) |>
         tibble::as_tibble() |>
-        dplyr::filter(stringr::str_detect(string = nome,pattern = contains))
+        dplyr::rename(var_id = id,
+                      var_name = nome) |>
+        dplyr::filter(stringr::str_detect(string = var_name,pattern = contains))
     }
 
     return(vars_list)

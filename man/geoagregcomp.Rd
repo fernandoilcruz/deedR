@@ -4,27 +4,31 @@
 \alias{geoagregcomp}
 \title{Geographic Aggregation Composition}
 \usage{
-geoagregcomp(ag, id, period)
+geoagregcomp(ag = "corede", geo_id, period = 2022)
 }
 \arguments{
-\item{ag}{Aggregation category. There are  three valid options:
+\item{ag}{Character. The aggregation category. There are  three valid options:
 \itemize{
-\item "corede": for coredes, a state-specific planning regionalization.
+\item "corede": for coredes (the default), a state-specific planning regionalization only applied to Rio Grande do Sul.
 \item "meso": for IBGE's mesoregions.
 \item "micro": for IBGE's microregions.
 }}
 
-\item{id}{Greographic unit ID}
+\item{geo_id}{Numeric. The Greographic unit ID}
 
-\item{period}{Year}
+\item{period}{Numeric. The year of the aggregation composition. This is needed only because coredes' composition changed over time. Default is 2022.}
 }
 \value{
 data.frame
 }
 \description{
-The geographic aggregation composition. Be aware that municipalities do not have
+The geographic aggregation composition. Because municipalities are the minimum aggregation level available
 }
 \examples{
-geoagregcomp(ag = "meso", id = 10, period = 2020)
+#First run geoagreg() to check the aggregation id of interest
+geoagreg(ag = "meso")
+#Let's get id=1 (Centro Ocidental Rio-Grandense) and year 2020 as example.
+#Run:
+geoagregcomp(ag = "meso", geo_id = 10, period = 2020)
 
 }

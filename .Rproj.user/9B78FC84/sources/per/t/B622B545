@@ -3,7 +3,7 @@
     "path": "C:/Users/ferna/OneDrive - Governo do Estado do Rio Grande do Sul/Documentos/GitHub/DEE_DADOS_R_PACKAGE/DEEDadosR/DEEDadosR/R/getdata.R",
     "project_path": "R/getdata.R",
     "type": "r_source",
-    "hash": "1767335092",
+    "hash": "3074004327",
     "contents": "",
     "dirty": false,
     "created": 1699656879723.0,
@@ -11,14 +11,16 @@
     "relative_order": 2,
     "properties": {
         "source_window_id": "",
-        "Source": "Source"
+        "Source": "Source",
+        "cursorPosition": "25,2",
+        "scrollLine": "14"
     },
     "folds": "",
-    "lastKnownWriteTime": 1698872734,
+    "lastKnownWriteTime": 1699673343,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1698872734,
+    "last_content_update": 1699673343833,
     "read_only": false,
     "read_only_alternatives": []
 }

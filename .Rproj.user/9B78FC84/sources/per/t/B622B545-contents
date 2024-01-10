@@ -22,16 +22,27 @@
 #'
 #' #Example 2
 #' my_data <- getdata(id = 4845,ag = "corede",period = "all")
+#' my_data <- getdata(id = 1686,ag = "corede",period = c(2010:2015))
 #'
 getdata <-
   function(id,
            ag,
-           period,
+           period = "all",
            sort = "ASC"){
 
-    periodo <- period
 
-    x <- paste0("https://dados.dee.rs.gov.br/api/data.php?",
+    #check available arguments
+    if(missing(id)){stop("Error: Select a valid argument for id. You can use the var() and vardetails() functions to see the available options")}
+
+    ags <- c("municipio", "corede", "meso", "micro")
+    if((missing(ag)) || (!ag %in% ags)){stop(paste0("Error: Select a valid argument for ag. The ag argument is only available for "),
+                          paste(ags, collapse = ", "))}
+
+    if(missing(period)){stop("Error: Select a valid argument for period")}
+
+
+    #url
+    url <- paste0("https://dados.dee.rs.gov.br/api/data.php?",
                 "id=",
                 id,
                 "&ag=",
@@ -40,7 +51,11 @@ getdata <-
                 period |> paste0(collapse = ","),
                 "&sort=",
                 sort
-    ) |>
+    )
+
+    #output
+    x <-
+      url |>
       jsonlite::fromJSON() |>
       tidyr::unnest(cols = data)
 

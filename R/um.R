@@ -3,6 +3,9 @@
 #' @description Get list of unity of measurement from system
 #'
 #' @return data.frame
+#'
+#' @import jsonlite tidyverse
+#'
 #' @export
 #'
 #' @examples

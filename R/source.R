@@ -2,6 +2,9 @@
 #'
 #' @description Get sources list from system
 #' @return data.frame
+#'
+#' @import jsonlite tidyverse
+#'
 #' @export
 #'
 #' @examples
