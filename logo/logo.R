@@ -2,7 +2,7 @@ library(hexSticker)
 library(geobr)
 library(ggplot2)
 library(tidyverse)
-l
+
 
 #Get Rio Grande do Sul shapefile
 state <- geobr::read_municipality(
@@ -36,7 +36,7 @@ rs_plot2 <-
 #Create sticker
 #x<-
   hexSticker::sticker(rs_plot2,
-                      package="DeedadosR",
+                      package="deedR",
                       p_family = "Aller_Rg",
                       p_fontface = "bold",
                       p_size=10,
