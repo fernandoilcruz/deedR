@@ -1,0 +1,26 @@
+{
+    "id": "13E4C5FF",
+    "path": "~/GitHub/DEE_DADOS_R_PACKAGE/DEEDadosR/DEEDadosR/R/getdata.R",
+    "project_path": "R/getdata.R",
+    "type": "r_source",
+    "hash": "4116521322",
+    "contents": "",
+    "dirty": false,
+    "created": 1705070039558.0,
+    "source_on_save": false,
+    "relative_order": 1,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "53,5",
+        "scrollLine": "34"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1707424540,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1707424540145,
+    "read_only": false,
+    "read_only_alternatives": []
+}
