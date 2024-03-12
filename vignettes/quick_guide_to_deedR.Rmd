@@ -1,0 +1,79 @@
+---
+title: "A quick guide to deedR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{A quick guide to deedR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Why an R package?
+
+[DEEDados](http://deedados.planejamento.rs.gov.br/feedados/) is a comprehensive repository of socioeconomic data for the state of Rio Grande do Sul, maintained by the Department of Economics and Statistics ([DEE/SPGG-RS](https://dee.rs.gov.br/inicial)). Besides being extremely intuitive and user-friendly for data downloads, the implementation of an API turned this task even faster and more efficient. Data analysts interested in the state's multiple sets of socioeconomic data have now a more appropriate tool to work with. R users, in particular, can benefit from this using deedR, an R package that provides an easy way to access the DEEDados API.
+
+## Installation via GitHub
+
+```{r setup, warning = FALSE, message = FALSE}
+#Development version of the package
+library(devtools)
+devtools::install_github("fernandoilcruz/deedR")
+library(deedR)
+```
+
+
+## Main Functions 
+
+
+## Example 1: Compare IDESE time series from multiple municipalities to their macroregion, mesoregion, corede and state counterparts
+
+Idese is the acronym for Índice de Desenvolvimento Socioeconômico, a synthetic indicator, which signals the socioeconomic situation of the state of Rio Grande do Sul and it's regions and municipalities, considering quantitative and qualitative aspects of the development process, articulating information regarding education, income and health.  . Learn more about Idese [here](https://dee.rs.gov.br/idese) (Portuguese only). For a shiny app, access: https://idesevis.dee.rs.gov.br/
+
+### 1) Search for the information you need
+Let's look up for all municipalities in Corede Serra.
+
+### 2) Get the data
+get
+
+### 3) Use your preferred plotting package to visualize it
+In our case, we will use [ggplot2]("https://ggplot2.tidyverse.org/"). Before we start, let's transform our wide data to long format.
+
+```{r}
+#library(ggplot2)
+
+#idese_plot <-
+#  idese |>
+#  ggplot(
+#    aes(x = Year,
+#        y = value,
+#        colour = Indicator)
+#  ) +
+#  geom_line() +
+#  facet_wrap(~municipality, scales = "free_y") + 
+#  ggtitle("Idese")
+```
+
+Now, let's plot!
+
+```{r}
+#library(ggplot2)
+
+#idese_plot <-
+#  idese |>
+#  ggplot(
+#    aes(x = Year,
+#        y = value,
+#        colour = Indicator)
+#  ) +
+#  geom_line() +
+#  facet_wrap(~municipality, scales = "free_y") + 
+#  ggtitle("Idese")
+```
+
+## Example 2: Calculate descriptive statistics on Establishments data from RAIS at each corede

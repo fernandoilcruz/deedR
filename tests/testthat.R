@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(DEEDadosR)
+library(deedR)
 
-test_check("DEEDadosR")
+test_check("deedR")
