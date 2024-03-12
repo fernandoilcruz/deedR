@@ -31,7 +31,7 @@ This function allows the user to download data from DEEDados API using R.
 }
 \examples{
 #Example 1
-my_data <- getdata(var_id = 4845,ag = "corede",period = c(2016,2017))
+my_data <- getdata(var_id = 4845,ag = "corede",period = c(2016,2017), add_labels = TRUE)
 print(my_data)
 print(my_data$data)
 
