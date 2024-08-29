@@ -30,7 +30,7 @@ geoagreg <-
     checkmate::assert_character(sort)
 
     #check available arguments
-    ags <- c("municipio", "corede", "meso", "micro")
+    ags <- c("municipio", "micro", "meso", "corede", "estado")
     if(!ag %in% ags){stop(paste0("Error: the ag argument is only available for "),
                           paste(ags, collapse = ", "))}
 

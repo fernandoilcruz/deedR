@@ -23,12 +23,12 @@
 #'
 #' @examples
 #' #Example 1
-#' my_data <- getdata(var_id = 4845,ag = "corede",period = c(2016,2017), add_labels = TRUE)
+#' my_data <- getdata(var_id = 4603,ag = "corede",period = c(2016,2017), add_labels = TRUE)
 #' print(my_data)
 #' print(my_data$data)
 #'
 #' #Example 2
-#' my_data <- getdata(var_id = 4845,ag = "corede",period = "all")
+#' my_data <- getdata(var_id = 4603,ag = "corede",period = "all")
 #' my_data <- getdata(var_id = 1686,ag = "corede",period = c(2010:2015))
 #'
 getdata <-
@@ -42,7 +42,7 @@ getdata <-
     #check available arguments
     if(missing(var_id)){stop("Error: Select a valid argument for var_id. You can use the var() and vardetails() functions to see the available options")}
 
-    ags <- c("municipio", "corede", "meso", "micro")
+    ags <- c("municipio", "micro", "meso", "corede", "estado")
     if((missing(ag)) || (!ag %in% ags)){stop(paste0("Error: Select a valid argument for ag. The ag argument is only available for "),
                           paste(ags, collapse = ", "))}
 

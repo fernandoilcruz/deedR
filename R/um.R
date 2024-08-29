@@ -18,5 +18,10 @@ um <-
     )
 
     jsonlite::fromJSON(x) |>
-      tibble::as_tibble()
+      tibble::as_tibble() |>
+      dplyr::rename(
+        um_id = id,
+        um_name = nome,
+        um_acronym = sigla
+      )
   }

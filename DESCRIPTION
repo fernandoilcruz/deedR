@@ -4,13 +4,14 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Fernando", "Cruz", , "fernando-cruz@spgg.rs.gov.br", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: deedR package allows users to download data directly from the DEEDados API for Municipalities, Coredes, Macroregions and Microregions.
+Description: deedR package allows users to download data directly from the DEEDados API for Municipalities, Coredes, Macroregions, Microregions and State of Rio Grande do Sul.
 License: MIT + file LICENSE
-Imports: jsTreeR, jsonlite, tidyverse, httr, checkmate, dplyr, lubridate, purrr, stringr, tibble, tidyr, utils
+Imports: jsTreeR, jsonlite, tidyverse, tidyselect, httr, checkmate, dplyr, lubridate, purrr, stringr, tibble, tidyr, utils
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Suggests: 
+    devtools,
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)

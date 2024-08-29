@@ -13,7 +13,7 @@ vardetails(var_id)
 A tibble
 }
 \description{
-Check the details of a variable, by searching for it's id.
+Check the details of a variable, by searching for it's ID.
 }
 \examples{
 vardetails(var_id = 4049)

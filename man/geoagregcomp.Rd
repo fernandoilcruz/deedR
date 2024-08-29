@@ -22,7 +22,7 @@ geoagregcomp(ag = "corede", geo_id, period = 2022)
 data.frame
 }
 \description{
-The geographic aggregation composition. Because municipalities are the minimum aggregation level available
+The geographic aggregation composition. Municipalities are the minimum aggregation level available
 }
 \examples{
 #First run geoagreg() to check the aggregation id of interest

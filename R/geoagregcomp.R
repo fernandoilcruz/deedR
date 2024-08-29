@@ -1,6 +1,6 @@
 #' Geographic Aggregation Composition
 #'
-#' @description The geographic aggregation composition. Because municipalities are the minimum aggregation level available
+#' @description The geographic aggregation composition. Municipalities are the minimum aggregation level available
 #'
 #' @param ag Character. The aggregation category. There are  three valid options:
 #' * "corede": for coredes (the default), a state-specific planning regionalization only applied to Rio Grande do Sul.
@@ -34,7 +34,7 @@ geoagregcomp <-
     checkmate::assert_numeric(period)
 
     #check available arguments
-    ags <- c("corede", "meso", "micro")
+    ags <- c("micro", "meso", "corede", "estado")
     if(!ag %in% ags){stop(paste0("Error: the ag argument is only available for "),
                           paste(ags, collapse = ", "))}
 
@@ -47,7 +47,7 @@ geoagregcomp <-
     }
 
     periods <- seq(1994,lubridate::year(Sys.Date())-1)
-    if(!period %in% periods){stop(paste0("Error: the period argument is only available for "),
+    if(ag == "corede" & (!period %in% periods)){stop(paste0("Error: the period argument for coredes is only available for "),
                                   paste(periods, collapse = ", "))}
 
     #url

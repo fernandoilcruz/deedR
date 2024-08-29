@@ -1,6 +1,6 @@
 #' Check vars details
 #'
-#' @description Check the details of a variable, by searching for it's id.
+#' @description Check the details of a variable, by searching for it's ID.
 #'
 #' @param var_id Variable's ID. It can be a single string or a vector.
 #'

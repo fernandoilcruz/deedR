@@ -15,7 +15,7 @@ vars(contains = NULL, sort = "ASC")
 a tibble
 }
 \description{
-List, filter and sort variables' ID and name
+Lists, filters and sorts variables' ID and names.
 }
 \examples{
 #Run this to see the full list of variables

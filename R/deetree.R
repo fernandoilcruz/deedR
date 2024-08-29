@@ -18,18 +18,15 @@ deetree <-
 
     url_arvore <- paste0("https://dados.dee.rs.gov.br/api/arvore.php")
 
-    #url_arvore <- paste0("https://dados.dee.rs.gov.br/php2/getjson_arvore.php?exibevariaveis=1")
-
     api <- httr::GET(url_arvore)
 
     api_content <- base::rawToChar(api$content)
 
     data <- jsonlite::fromJSON(api_content,
-                                simplifyVector = FALSE) #pra deixar como lista, igual ao pacote rjson
-
+                                simplifyVector = FALSE)
 
     jsTreeR::jstree(data$children,
                     checkboxes = T,
-                    search = T)
-
+                    search = T
+                    )
   }

@@ -1,5 +1,7 @@
 #' List, filter and sort variables' ID and name
 #'
+#' @description Lists, filters and sorts variables' ID and names.
+#'
 #' @param sort Optional. A character string. Either "ASC" to sort from A to Z or "DESC" to sort from Z to A.
 #' @param contains Optional. A character string to filter from the list of variables.
 #'
