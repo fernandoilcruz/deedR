@@ -144,7 +144,7 @@ Lastly, to gather data into the same dataframe and compare them, we need a *From
 
 ```{r}
 ft_table <-
-  geoagregall2() |>
+  deedR::geoagregall2() |>
   dplyr::select(-period)
 
 ft_table

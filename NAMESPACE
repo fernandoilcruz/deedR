@@ -3,6 +3,7 @@
 export(deetree)
 export(geoagreg)
 export(geoagregall)
+export(geoagregall2)
 export(geoagregcomp)
 export(getdata)
 export(source)

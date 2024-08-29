@@ -1,3 +1,19 @@
+#' Integrated Geographic Aggregation Composition
+#'
+#' @description Geographic aggregations for all municipalites in Rio Grande do Sul.
+#'
+#' @param period Numeric (optional).
+#' @return tibble
+#'
+#' @import checkmate tidyverse tidyselect
+#' @importFrom utils data
+#'
+#' @export
+#'
+#' @examples
+#' geoagregall2()
+#' geoagregall2(period = 2022)
+#'
 geoagregall2 <-
   function(period = NULL){
 
