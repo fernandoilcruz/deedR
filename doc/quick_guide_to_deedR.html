@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>A quick guide to deedR</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">A quick guide to deedR</h1>
+
+
+
+<div id="why-an-r-package" class="section level2">
+<h2>Why an R package?</h2>
+<p><a href="http://deedados.planejamento.rs.gov.br/feedados/">DEEDados</a> is
+a comprehensive repository of socioeconomic data for the state of Rio
+Grande do Sul, maintained by the Department of Economics and Statistics
+at the Planning and Budget Office at State Government of Rio Grande do
+Sul (<a href="https://dee.rs.gov.br/inicial">DEE/SPGG-RS</a>). Besides
+DEEDados interface being extremely intuitive and user-friendly for data
+downloads, the API turned this task even faster and more efficient. Data
+analysts interested in the state’s multiple sets of socioeconomic data
+have now a more appropriate tool to work with. R users, in particular,
+can benefit from this using deedR, an R package that provides an easy
+way to access the DEEDados API.</p>
+</div>
+<div id="installation-via-github" class="section level2">
+<h2>Installation via GitHub</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co">#Development version of the package</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;fernandoilcruz/deedR&quot;</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#Load the package</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">library</span>(deedR)</span></code></pre></div>
+</div>
+<div id="main-functions" class="section level2">
+<h2>Main Functions</h2>
+<p>The current version of deedR contains the following functions for
+users:</p>
+<ul>
+<li><p><code>geoagreg</code>: Checks ID and name of geographic
+aggregations. For municipalities, latitude and longitude are also
+available.</p></li>
+<li><p><code>geoagregcomp</code>: The geographic aggregation
+composition. Municipalities are the minimum aggregation level
+available</p></li>
+<li><p><code>getdata</code>: The package’s main function. It allows the
+user to download data from DEEDados API using R.</p></li>
+<li><p><code>source</code>: Lists DEEDados sources</p></li>
+<li><p><code>um</code>: Lists unities of measurement</p></li>
+<li><p><code>vardetails</code>: Checks the details of a variable, by
+searching for it’s ID.</p></li>
+<li><p><code>vars</code>: Lists, filters and sorts variables’ ID and
+names.</p></li>
+</ul>
+</div>
+<div id="deedr-in-practice" class="section level2">
+<h2>deedR in practice</h2>
+<div id="example-1-compare-idese-time-series-from-multiple-municipalities-to-their-macroregion-mesoregion-and-corede" class="section level3">
+<h3>Example 1: Compare IDESE time series from multiple municipalities to
+their macroregion, mesoregion and corede</h3>
+<p>Idese is the acronym for Índice de Desenvolvimento Socioeconômico, a
+synthetic indicator, which signals the socioeconomic situation of the
+state of Rio Grande do Sul and it’s regions and municipalities,
+considering quantitative and qualitative aspects of the development
+process, articulating information regarding education, income and
+health. Learn more about Idese <a href="https://dee.rs.gov.br/idese">here</a> (Portuguese only). For a
+shiny app, access: <a href="https://idesevis.dee.rs.gov.br/" class="uri">https://idesevis.dee.rs.gov.br/</a></p>
+<div id="a-search-for-the-information-you-need-and-download-it" class="section level4">
+<h4>a) Search for the information you need and download it</h4>
+<p>Let’s look up for all municipalities in Corede Hortênsias, where lies
+the city of Gramado.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;fernandoilcruz/deedR&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; Skipping install of &#39;deedR&#39; from a github remote, the SHA1 (55146be2) has not changed since last install.</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt;   Use `force = TRUE` to force installation</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>deedR<span class="sc">::</span><span class="fu">geoagreg</span>(<span class="at">ag =</span> <span class="st">&quot;corede&quot;</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; # A tibble: 28 × 2</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt;    geo_id geo_name                  </span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt;     &lt;int&gt; &lt;chr&gt;                     </span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt;  1     35 Alto da Serra do Botucaraí</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt;  2      1 Alto Jacuí                </span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt;  3      2 Campanha                  </span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt;  4     38 Campos de Cima da Serra   </span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt;  5     40 Celeiro                   </span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt;  6      3 Central                   </span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt;  7      4 Centro Sul                </span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt;  8      5 Fronteira Noroeste        </span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt;  9      6 Fronteira Oeste           </span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co">#&gt; 10      7 Hortênsias                </span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co">#&gt; # ℹ 18 more rows</span></span></code></pre></div>
+<p>Corede Hortênsias has parameter id = 7.</p>
+<p>Which municipalities belong to this Corede?</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>deedR<span class="sc">::</span><span class="fu">geoagregcomp</span>(<span class="at">ag =</span> <span class="st">&quot;corede&quot;</span>, <span class="at">geo_id =</span> <span class="dv">7</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; # A tibble: 7 × 2</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt;   geo_id geo_name              </span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt;                 </span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; 1     61 Cambará do Sul        </span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; 2     71 Canela                </span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; 3    165 Gramado               </span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; 4    204 Jaquirana             </span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; 5    258 Nova Petrópolis       </span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; 6    286 Picada Café           </span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; 7    352 São Francisco de Paula</span></span></code></pre></div>
+<p>As we see, the Corede Hortênsias is composed by seven (just a
+coincidence) municipalities.</p>
+<p>Now, lets dig in the Idese informations, ruling out the 2013
+revision.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>vars_corede_ex_2013 <span class="ot">&lt;-</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  deedR<span class="sc">::</span><span class="fu">vars</span>(<span class="at">contains =</span> <span class="st">&quot;Idese&quot;</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(stringr<span class="sc">::</span><span class="fu">str_detect</span>(<span class="at">string =</span> var_name, <span class="at">pattern =</span> <span class="st">&quot;2013&quot;</span>, <span class="at">negate =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>vars_corede_ex_2013</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; # A tibble: 19 × 2</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt;    var_id var_name                                                              </span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt;     &lt;int&gt; &lt;chr&gt;                                                                 </span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt;  1   4686 &quot;\\Idese (Rev.2020)\\Bloco Educação\\Ensino Fundamental\\Anos Finais …</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt;  2   4688 &quot;\\Idese (Rev.2020)\\Bloco Educação\\Ensino Fundamental\\Anos Iniciai…</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt;  3   4689 &quot;\\Idese (Rev.2020)\\Bloco Educação\\Ensino Fundamental\\Índice&quot;      </span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;  4   4691 &quot;\\Idese (Rev.2020)\\Bloco Educação\\Ensino Médio\\Índice&quot;            </span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt;  5   4693 &quot;\\Idese (Rev.2020)\\Bloco Educação\\Escolaridade Adulta\\Índice&quot;     </span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt;  6   4696 &quot;\\Idese (Rev.2020)\\Bloco Educação\\Índice&quot;                          </span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt;  7   4695 &quot;\\Idese (Rev.2020)\\Bloco Educação\\Pré Escola\\Índice&quot;              </span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt;  8   4699 &quot;\\Idese (Rev.2020)\\Bloco Renda\\Apropriação da Renda\\Índice&quot;       </span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt;  9   4701 &quot;\\Idese (Rev.2020)\\Bloco Renda\\Geração da Renda\\Índice&quot;           </span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt; 10   4702 &quot;\\Idese (Rev.2020)\\Bloco Renda\\Índice&quot;                             </span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt; 11   4709 &quot;\\Idese (Rev.2020)\\Bloco Saúde\\Condições Gerais de Saúde\\Índice&quot;  </span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt; 12   4706 &quot;\\Idese (Rev.2020)\\Bloco Saúde\\Condições Gerais de Saúde\\Mortes p…</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt; 13   4708 &quot;\\Idese (Rev.2020)\\Bloco Saúde\\Condições Gerais de Saúde\\Óbitos p…</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt; 14   4718 &quot;\\Idese (Rev.2020)\\Bloco Saúde\\Índice&quot;                             </span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co">#&gt; 15   4711 &quot;\\Idese (Rev.2020)\\Bloco Saúde\\Longevidade\\Índice&quot;                </span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co">#&gt; 16   4714 &quot;\\Idese (Rev.2020)\\Bloco Saúde\\Saúde Materno Infantil\\Consultas P…</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co">#&gt; 17   4717 &quot;\\Idese (Rev.2020)\\Bloco Saúde\\Saúde Materno Infantil\\Índice&quot;     </span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="co">#&gt; 18   4716 &quot;\\Idese (Rev.2020)\\Bloco Saúde\\Saúde Materno Infantil\\Mortalidade…</span></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="co">#&gt; 19   4719 &quot;\\Idese (Rev.2020)\\Idese&quot;</span></span></code></pre></div>
+<p>Collect the list of variables id’s and view the details:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>ids <span class="ot">&lt;-</span> </span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  vars_corede_ex_2013 <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(var_id) <span class="sc">|&gt;</span> </span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">pull</span>()</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  </span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>deedR<span class="sc">::</span><span class="fu">vardetails</span>(<span class="at">var_id =</span> ids)</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; # A tibble: 19 × 6</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt;    var_id var_name                description type  decimal_places var_id_source</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt;     &lt;int&gt; &lt;chr&gt;                   &lt;chr&gt;       &lt;chr&gt;          &lt;int&gt;         &lt;int&gt;</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt;  1   4686 &quot;Idese (Rev.2020)\\Blo… &quot;&quot;          Nume…              3            82</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt;  2   4688 &quot;Idese (Rev.2020)\\Blo… &quot;&quot;          Nume…              3            82</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt;  3   4689 &quot;Idese (Rev.2020)\\Blo… &quot;&quot;          Nume…              3            82</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt;  4   4691 &quot;Idese (Rev.2020)\\Blo… &quot;&quot;          Nume…              3            82</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt;  5   4693 &quot;Idese (Rev.2020)\\Blo… &quot;&quot;          Nume…              3            82</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt;  6   4696 &quot;Idese (Rev.2020)\\Blo… &quot;&quot;          Nume…              3            82</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt;  7   4695 &quot;Idese (Rev.2020)\\Blo… &quot;&quot;          Nume…              3            82</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt;  8   4699 &quot;Idese (Rev.2020)\\Blo… &quot;&quot;          Nume…              3            82</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt;  9   4701 &quot;Idese (Rev.2020)\\Blo… &quot;&quot;          Nume…              3            82</span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt; 10   4702 &quot;Idese (Rev.2020)\\Blo… &quot;&quot;          Nume…              3            82</span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt; 11   4709 &quot;Idese (Rev.2020)\\Blo… &quot;&quot;          Nume…              3            82</span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt; 12   4706 &quot;Idese (Rev.2020)\\Blo… &quot;&quot;          Nume…              3            82</span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt; 13   4708 &quot;Idese (Rev.2020)\\Blo… &quot;&quot;          Nume…              3            82</span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; 14   4718 &quot;Idese (Rev.2020)\\Blo… &quot;&quot;          Nume…              3            82</span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; 15   4711 &quot;Idese (Rev.2020)\\Blo… &quot;&quot;          Nume…              3            82</span></span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co">#&gt; 16   4714 &quot;Idese (Rev.2020)\\Blo… &quot;&quot;          Nume…              3            82</span></span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="co">#&gt; 17   4717 &quot;Idese (Rev.2020)\\Blo… &quot;&quot;          Nume…              3            82</span></span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a><span class="co">#&gt; 18   4716 &quot;Idese (Rev.2020)\\Blo… &quot;&quot;          Nume…              3            82</span></span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a><span class="co">#&gt; 19   4719 &quot;Idese (Rev.2020)\\Ide… &quot;&quot;          Nume…              3            82</span></span></code></pre></div>
+<p>Ok. Now we know what we want, let us download the data.</p>
+<p>Take a closer look to the function with help:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">help</span>(<span class="at">package =</span> <span class="st">&quot;deedR&quot;</span>, <span class="st">&quot;getdata&quot;</span>)</span></code></pre></div>
+<p>Choose the appropriate options and download the data:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>data_muni <span class="ot">&lt;-</span>  </span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  deedR<span class="sc">::</span><span class="fu">getdata</span>(<span class="at">var_id =</span> ids, <span class="at">ag =</span> <span class="st">&quot;municipio&quot;</span>, <span class="at">period =</span> <span class="st">&quot;all&quot;</span>, <span class="at">add_labels =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">value =</span> </span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>                  value <span class="sc">|&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>                  stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">&quot;,&quot;</span>,<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>                  <span class="fu">as.numeric</span>())</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  </span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>data_corede <span class="ot">&lt;-</span> deedR<span class="sc">::</span><span class="fu">getdata</span>(<span class="at">var_id =</span> ids, <span class="at">ag =</span> <span class="st">&quot;corede&quot;</span>, <span class="at">period =</span> <span class="st">&quot;all&quot;</span>, <span class="at">add_labels =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">value =</span> </span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>                  value <span class="sc">|&gt;</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>                  stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">&quot;,&quot;</span>,<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>                  <span class="fu">as.numeric</span>())</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>data_meso <span class="ot">&lt;-</span> deedR<span class="sc">::</span><span class="fu">getdata</span>(<span class="at">var_id =</span> ids, <span class="at">ag =</span> <span class="st">&quot;meso&quot;</span>, <span class="at">period =</span> <span class="st">&quot;all&quot;</span>, <span class="at">add_labels =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">value =</span> </span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>                  value <span class="sc">|&gt;</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>                  stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">&quot;,&quot;</span>,<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>                  <span class="fu">as.numeric</span>())</span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>data_micro <span class="ot">&lt;-</span> deedR<span class="sc">::</span><span class="fu">getdata</span>(<span class="at">var_id =</span> ids, <span class="at">ag =</span> <span class="st">&quot;micro&quot;</span>, <span class="at">period =</span> <span class="st">&quot;all&quot;</span>, <span class="at">add_labels =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">value =</span> </span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a>                  value <span class="sc">|&gt;</span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a>                  stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">&quot;,&quot;</span>,<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a>                  <span class="fu">as.numeric</span>())</span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a>data_estado <span class="ot">&lt;-</span> </span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a>  deedR<span class="sc">::</span><span class="fu">getdata</span>(<span class="at">var_id =</span> ids, <span class="at">ag =</span> <span class="st">&quot;estado&quot;</span>, <span class="at">period =</span> <span class="st">&quot;all&quot;</span>, <span class="at">add_labels =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">value =</span> </span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a>                  value <span class="sc">|&gt;</span></span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a>                  stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">&quot;,&quot;</span>,<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a>                  <span class="fu">as.numeric</span>())</span></code></pre></div>
+<p>Lastly, to gather data into the same dataframe and compare them, we
+need a <em>From-To</em> table. We can obtain it through the function
+<code>geoagregall2</code>. Since the data we are interested in start in
+2013, we’re going to use the default option, that leaves the argument
+<code>period</code> in blank. Also, we’re going to hide the period
+column.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>ft_table <span class="ot">&lt;-</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  deedR<span class="sc">::</span><span class="fu">geoagregall2</span>() <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>period)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>ft_table</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; # A tibble: 497 × 10</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt;    geo_id_municipio geo_name_municipio   geo_id_micro geo_name_micro geo_id_meso</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt;               &lt;int&gt; &lt;chr&gt;                       &lt;int&gt; &lt;chr&gt;                &lt;int&gt;</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt;  1              468 Aceguá                         33 Campanha Meri…          13</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt;  2                1 Água Santa                     22 Passo Fundo              8</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt;  3              459 Agudo                          35 Restinga Seca           10</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt;  4                2 Ajuricaba                      20 Ijuí                     8</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt;  5                3 Alecrim                        24 Santa Rosa               8</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt;  6                4 Alegrete                       34 Campanha Ocid…          13</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt;  7                5 Alegria                        20 Ijuí                     8</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt;  8              469 Almirante Tamandaré…           15 Carazinho                8</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt;  9                6 Alpestre                       19 Frederico Wes…           8</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co">#&gt; 10                7 Alto Alegre                    17 Cruz Alta                8</span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt; # ℹ 487 more rows</span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt; # ℹ 5 more variables: geo_name_meso &lt;chr&gt;, geo_id_corede &lt;int&gt;,</span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt; #   geo_name_corede &lt;chr&gt;, geo_id_estado &lt;int&gt;, geo_name_estado &lt;chr&gt;</span></span></code></pre></div>
+</div>
+<div id="b-get-the-raw-data-transform-it-and-analyze-it." class="section level4">
+<h4>b) Get the raw data, transform it and analyze it.</h4>
+<p>Now let’s play a little bit with the data we collected. We’re going
+to build a dataframe that gathers all the IDESE information for the city
+of Gramado in one place.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> </span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  ft_table <span class="sc">|&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>    data_muni,</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;geo_id_municipio&quot;</span> <span class="ot">=</span> <span class="st">&quot;geo_id&quot;</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>           <span class="st">&quot;geo_name_municipio&quot;</span> <span class="ot">=</span> <span class="st">&quot;geo_name&quot;</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">value_municipio =</span> value) <span class="sc">|&gt;</span> </span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>    data_micro,</span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;geo_id_micro&quot;</span> <span class="ot">=</span> <span class="st">&quot;geo_id&quot;</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>           <span class="st">&quot;geo_name_micro&quot;</span> <span class="ot">=</span> <span class="st">&quot;geo_name&quot;</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>           <span class="st">&quot;var_id&quot;</span> <span class="ot">=</span> <span class="st">&quot;var_id&quot;</span>,</span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>           <span class="st">&quot;var_name&quot;</span> <span class="ot">=</span> <span class="st">&quot;var_name&quot;</span>,</span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a>           <span class="st">&quot;year&quot;</span> <span class="ot">=</span> <span class="st">&quot;year&quot;</span>,</span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a>           <span class="st">&quot;unit&quot;</span> <span class="ot">=</span> <span class="st">&quot;unit&quot;</span>,</span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a>           <span class="st">&quot;note&quot;</span> <span class="ot">=</span> <span class="st">&quot;note&quot;</span>)</span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">value_micro =</span> value) <span class="sc">|&gt;</span></span>
+<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(</span>
+<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a>    data_meso,</span>
+<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;geo_id_meso&quot;</span> <span class="ot">=</span> <span class="st">&quot;geo_id&quot;</span>,</span>
+<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a>           <span class="st">&quot;geo_name_meso&quot;</span> <span class="ot">=</span> <span class="st">&quot;geo_name&quot;</span>,</span>
+<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a>           <span class="st">&quot;var_id&quot;</span> <span class="ot">=</span> <span class="st">&quot;var_id&quot;</span>,</span>
+<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a>           <span class="st">&quot;var_name&quot;</span> <span class="ot">=</span> <span class="st">&quot;var_name&quot;</span>,</span>
+<span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a>           <span class="st">&quot;year&quot;</span> <span class="ot">=</span> <span class="st">&quot;year&quot;</span>,</span>
+<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a>           <span class="st">&quot;unit&quot;</span> <span class="ot">=</span> <span class="st">&quot;unit&quot;</span>,</span>
+<span id="cb9-29"><a href="#cb9-29" tabindex="-1"></a>           <span class="st">&quot;note&quot;</span> <span class="ot">=</span> <span class="st">&quot;note&quot;</span>)</span>
+<span id="cb9-30"><a href="#cb9-30" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">value_meso =</span> value) <span class="sc">|&gt;</span></span>
+<span id="cb9-32"><a href="#cb9-32" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(</span>
+<span id="cb9-33"><a href="#cb9-33" tabindex="-1"></a>    data_corede,</span>
+<span id="cb9-34"><a href="#cb9-34" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;geo_id_corede&quot;</span> <span class="ot">=</span> <span class="st">&quot;geo_id&quot;</span>,</span>
+<span id="cb9-35"><a href="#cb9-35" tabindex="-1"></a>           <span class="st">&quot;geo_name_corede&quot;</span> <span class="ot">=</span> <span class="st">&quot;geo_name&quot;</span>,</span>
+<span id="cb9-36"><a href="#cb9-36" tabindex="-1"></a>           <span class="st">&quot;var_id&quot;</span> <span class="ot">=</span> <span class="st">&quot;var_id&quot;</span>,</span>
+<span id="cb9-37"><a href="#cb9-37" tabindex="-1"></a>           <span class="st">&quot;var_name&quot;</span> <span class="ot">=</span> <span class="st">&quot;var_name&quot;</span>,</span>
+<span id="cb9-38"><a href="#cb9-38" tabindex="-1"></a>           <span class="st">&quot;year&quot;</span> <span class="ot">=</span> <span class="st">&quot;year&quot;</span>,</span>
+<span id="cb9-39"><a href="#cb9-39" tabindex="-1"></a>           <span class="st">&quot;unit&quot;</span> <span class="ot">=</span> <span class="st">&quot;unit&quot;</span>,</span>
+<span id="cb9-40"><a href="#cb9-40" tabindex="-1"></a>           <span class="st">&quot;note&quot;</span> <span class="ot">=</span> <span class="st">&quot;note&quot;</span>)</span>
+<span id="cb9-41"><a href="#cb9-41" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb9-42"><a href="#cb9-42" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">value_corede =</span> value) <span class="sc">|&gt;</span></span>
+<span id="cb9-43"><a href="#cb9-43" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">left_join</span>(</span>
+<span id="cb9-44"><a href="#cb9-44" tabindex="-1"></a>    data_estado,</span>
+<span id="cb9-45"><a href="#cb9-45" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">&quot;geo_id_estado&quot;</span> <span class="ot">=</span> <span class="st">&quot;geo_id&quot;</span>,</span>
+<span id="cb9-46"><a href="#cb9-46" tabindex="-1"></a>           <span class="st">&quot;geo_name_estado&quot;</span> <span class="ot">=</span> <span class="st">&quot;geo_name&quot;</span>,</span>
+<span id="cb9-47"><a href="#cb9-47" tabindex="-1"></a>           <span class="st">&quot;var_id&quot;</span> <span class="ot">=</span> <span class="st">&quot;var_id&quot;</span>,</span>
+<span id="cb9-48"><a href="#cb9-48" tabindex="-1"></a>           <span class="st">&quot;var_name&quot;</span> <span class="ot">=</span> <span class="st">&quot;var_name&quot;</span>,</span>
+<span id="cb9-49"><a href="#cb9-49" tabindex="-1"></a>           <span class="st">&quot;year&quot;</span> <span class="ot">=</span> <span class="st">&quot;year&quot;</span>,</span>
+<span id="cb9-50"><a href="#cb9-50" tabindex="-1"></a>           <span class="st">&quot;unit&quot;</span> <span class="ot">=</span> <span class="st">&quot;unit&quot;</span>,</span>
+<span id="cb9-51"><a href="#cb9-51" tabindex="-1"></a>           <span class="st">&quot;note&quot;</span> <span class="ot">=</span> <span class="st">&quot;note&quot;</span>)</span>
+<span id="cb9-52"><a href="#cb9-52" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb9-53"><a href="#cb9-53" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">value_estado =</span> value) <span class="sc">|&gt;</span></span>
+<span id="cb9-54"><a href="#cb9-54" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(geo_name_municipio <span class="sc">==</span> <span class="st">&quot;Gramado&quot;</span>)</span></code></pre></div>
+</div>
+<div id="c-use-your-preferred-plotting-package-to-visualize-it" class="section level4">
+<h4>c) Use your preferred plotting package to visualize it</h4>
+<p>Now, let’s make some diagrams to understand the behaviour of each
+indicator in time. In our case, we will use <a href="%22https://ggplot2.tidyverse.org/%22">ggplot2</a>. Before we
+start, let’s transform our wide data to long format.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt; Anexando pacote: &#39;ggplot2&#39;</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt; O seguinte objeto é mascarado por &#39;package:deedR&#39;:</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt;     vars</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#Transform the data to better fit our ggplot</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>idese <span class="ot">&lt;-</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>  my_data <span class="sc">|&gt;</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">paste0</span>(<span class="st">&quot;01-01-&quot;</span>,year) <span class="sc">|&gt;</span> lubridate<span class="sc">::</span><span class="fu">dmy</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">gather</span>(</span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>    <span class="at">key =</span> agregation,</span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>    <span class="at">value =</span> value,</span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a>    value_municipio,value_micro,value_meso,value_corede,value_estado</span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">agregation =</span> stringr<span class="sc">::</span><span class="fu">str_remove_all</span>(agregation,<span class="st">&quot;value_&quot;</span>))</span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="co">#Build the graphs</span></span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a>idese_plot <span class="ot">&lt;-</span></span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a>  idese <span class="sc">|&gt;</span></span>
+<span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(</span>
+<span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x =</span> year,</span>
+<span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a>                 <span class="at">y =</span> value,</span>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a>                 <span class="at">colour =</span> agregation)</span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb10-27"><a href="#cb10-27" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">facet_wrap</span>(<span class="sc">~</span>var_name, <span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>, <span class="at">labeller =</span> ggplot2<span class="sc">::</span><span class="fu">label_wrap_gen</span>(<span class="at">width=</span><span class="dv">20</span>)) <span class="sc">+</span></span>
+<span id="cb10-28"><a href="#cb10-28" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme</span>(<span class="at">strip.text =</span> ggplot2<span class="sc">::</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb10-29"><a href="#cb10-29" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggtitle</span>(<span class="at">label =</span> <span class="st">&quot;Gramado&quot;</span>,</span>
+<span id="cb10-30"><a href="#cb10-30" tabindex="-1"></a>                   <span class="at">subtitle =</span> <span class="st">&quot;Idese and components&quot;</span>)</span>
+<span id="cb10-31"><a href="#cb10-31" tabindex="-1"></a></span>
+<span id="cb10-32"><a href="#cb10-32" tabindex="-1"></a><span class="co">#Plot it!</span></span>
+<span id="cb10-33"><a href="#cb10-33" tabindex="-1"></a>idese_plot</span>
+<span id="cb10-34"><a href="#cb10-34" tabindex="-1"></a><span class="co">#&gt; Warning: Removed 3 rows containing missing values or values outside the scale range</span></span>
+<span id="cb10-35"><a href="#cb10-35" tabindex="-1"></a><span class="co">#&gt; (`geom_line()`).</span></span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+</div>
+<div id="example-2-calculate-descriptive-statistics-on-establishments-data-from-rais-in-each-corede" class="section level3">
+<h3>Example 2: Calculate descriptive statistics on Establishments data
+from RAIS in each Corede</h3>
+<p>to be implemented…</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
