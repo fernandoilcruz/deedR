@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
+
 ## Why an R package?
 
 [DEEDados](http://deedados.planejamento.rs.gov.br/feedados/) is a comprehensive repository of socioeconomic data for the state of Rio Grande do Sul, maintained by the Department of Economics and Statistics at the Planning and Budget Office at State Government of Rio Grande do Sul ([DEE/SPGG-RS](https://dee.rs.gov.br/inicial)). Besides DEEDados interface being extremely intuitive and user-friendly for data downloads, the API turned this task even faster and more efficient. Data analysts interested in the state's multiple sets of socioeconomic data have now a more appropriate tool to work with. R users, in particular, can benefit from this using deedR, an R package that provides an easy way to access the DEEDados API.
