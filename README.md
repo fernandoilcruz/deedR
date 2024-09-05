@@ -1,4 +1,5 @@
-# deedR <img src="man/figures/logo.png" align="right" height="150" alt="" />
+# deedR 
+# <img src="man/figures/logo.png" align="right" height="150" alt="" />
 
 # An R package for DEEDados API database
 
