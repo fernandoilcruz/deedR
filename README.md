@@ -1,4 +1,12 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+
+# deedR <img src="man/figures/logo.png" align="right" height="139" alt="" />
 # An R package for DEEDados API database
+
 
 ## Introduction
 
