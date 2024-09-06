@@ -10,12 +10,9 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  fig.width = 10,
-  fig.height = 10
+  comment = "#>"
 )
 ```
-
 
 ## Why an R package?
 
@@ -38,15 +35,13 @@ The current version of deedR contains the following functions for users:
 
 * `geoagreg`: Checks ID and name of geographic aggregations. For municipalities, latitude and longitude are also available.
 
-* `geoagregcomp`: The geographic aggregation composition. Municipalities are the minimum aggregation level available.
-
-* `geoagregall2`: Geographic aggregations for all municipalites in Rio Grande do Sul.
+* `geoagregcomp`: The geographic aggregation composition. Municipalities are the minimum aggregation level available
 
 * `getdata`: The package's main function. It allows the user to download data from DEEDados API using R.
 
-* `source`: Lists DEEDados sources.
+* `source`: Lists DEEDados sources
 
-* `um`: Lists unities of measurement.
+* `um`: Lists unities of measurement
 
 * `vardetails`: Checks the details of a variable, by searching for it's ID.
 
