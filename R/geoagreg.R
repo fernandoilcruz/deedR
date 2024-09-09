@@ -2,11 +2,12 @@
 #'
 #' @description Check ID and name of geographic aggregations. For municipalities, latitude and longitude are also available.
 #'
-#' @param ag Character. The aggregation category. There are  four valid options:
+#' @param ag Character. The aggregation category. There are  five valid options:
 #' * "municipio" (the default): for municipalities.
 #' * "corede": for coredes, a state-specific planning regionalization.
 #' * "meso": for IBGE's mesoregions.
 #' * "micro": for IBGE's microregions.
+#' * "estado": for the state of Rio Grande do Sul.
 #'
 #' @param sort Character. This is used for sorting names from A to Z ("ASC") or Z to A ("DESC").Default is "ASC".
 #'

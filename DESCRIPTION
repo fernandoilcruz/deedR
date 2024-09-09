@@ -2,17 +2,17 @@ Package: deedR
 Title: Download Data directly from DEEDados API
 Version: 0.0.0.9000
 Authors@R: 
-    person("Fernando", "Cruz", , "fernando-cruz@spgg.rs.gov.br", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+    person("Fernando", "Cruz", , email = "fernando-cruz@spgg.rs.gov.br", role = c("aut", "cre"))
 Description: deedR package allows users to download data directly from the DEEDados API for Municipalities, Coredes, Macroregions, Microregions and State of Rio Grande do Sul.
 License: MIT + file LICENSE
 Imports: jsTreeR, jsonlite, tidyverse, tidyselect, httr, checkmate, dplyr, lubridate, purrr, stringr, tibble, tidyr, utils
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Suggests: 
     devtools,
     knitr,
+    ggplot2,
     rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
