@@ -3,14 +3,15 @@
 #' @description This function allows the user to download data from DEEDados API using R.
 #'
 #' @param var_id The variable's ID.
-#' @param ag The regional aggregation. There are  four valid options:
+#' @param ag The regional aggregation. There are  five valid options:
 #' * "municipio" (the default): for municipalities.
 #' * "corede": for coredes, a state-specific planning regionalization.
 #' * "meso": for IBGE's mesoregions.
 #' * "micro": for IBGE's microregions.
+#' * "estado": for the state of Rio Grande do Sul.
 #' @param period The year to consult. It allows single string (ex:2010), vector(ex:c(2010,2022) or "all")
 #' @param sort If the user wants to sort from "ASC" for ascendent order or "DESC" for descendent order. Default is "ASC".
-#' @param add_labels Allows the user to add labels to the results
+#' @param add_names Allows the user to add the respective names to the id codes results
 #'
 #' @return a data.frame
 #'
@@ -23,7 +24,7 @@
 #'
 #' @examples
 #' #Example 1
-#' my_data <- getdata(var_id = 4603,ag = "corede",period = c(2016,2017), add_labels = TRUE)
+#' my_data <- getdata(var_id = 4603,ag = "corede",period = c(2016,2017), add_names = TRUE)
 #' print(my_data)
 #' print(my_data$data)
 #'
@@ -36,7 +37,7 @@ getdata <-
            ag,
            period = "all",
            sort = "ASC",
-           add_labels = FALSE){
+           add_names = FALSE){
 
 
     #check available arguments
@@ -53,11 +54,6 @@ getdata <-
       var_id <- vars() |> dplyr::select(var_id) |> dplyr::pull()
     }
 
-    #ARGUMENTO FORÇADO####################################ALOOOOOOOOW
-    # var_id <- c(3755, 4784)
-    # ag = "municipio"
-    # period = "all"
-    # sort = "ASC"
 
     #output
     x<-
@@ -88,11 +84,11 @@ getdata <-
       dplyr::select(var_id,geo_id,year,value, unit, note)
 
 
-    #add labels
+    #add names
     vars1 <- vars()
     geos1 <- geoagreg(ag = ag)
 
-    if(add_labels == TRUE){
+    if(add_names == TRUE){
       x <-
         x |>
         dplyr::left_join(vars1,
@@ -105,19 +101,4 @@ getdata <-
     return(x)
 
   }
-
-
-#teste
-# inicio <- Sys.time()
-# getdata(var_id = c(3755,4784), ag = "municipio")
-# fim <- Sys.time()
-# tempo <- fim-inicio
-
-# inicio <- Sys.time()
-# teste <- vars() |> dplyr::select(var_id) |> dplyr::pull()
-# getdata(var_id = "all", ag = "meso")
-# fim <- Sys.time()
-# tempo <- fim-inicio
-# library(beepr)
-# beep(sound = 3)
 

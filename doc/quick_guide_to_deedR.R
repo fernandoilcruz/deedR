@@ -1,6 +1,8 @@
 ## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
+  fig.width = 10, 
+  fig.height = 10,
   comment = "#>"
 )
 
