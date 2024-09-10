@@ -43,32 +43,32 @@ deedR::vardetails(var_id = ids)
 
 ## -----------------------------------------------------------------------------
 data_muni <-  
-  deedR::getdata(var_id = ids, ag = "municipio", period = "all", add_labels = TRUE) |>
+  deedR::getdata(var_id = ids, ag = "municipio", period = "all", add_names = TRUE) |>
   dplyr::mutate(value = 
                   value |>
                   stringr::str_replace_all(",","\\.") |>
                   as.numeric())
   
-data_corede <- deedR::getdata(var_id = ids, ag = "corede", period = "all", add_labels = TRUE) |>
+data_corede <- deedR::getdata(var_id = ids, ag = "corede", period = "all", add_names = TRUE) |>
   dplyr::mutate(value = 
                   value |>
                   stringr::str_replace_all(",","\\.") |>
                   as.numeric())
 
-data_meso <- deedR::getdata(var_id = ids, ag = "meso", period = "all", add_labels = TRUE) |>
+data_meso <- deedR::getdata(var_id = ids, ag = "meso", period = "all", add_names = TRUE) |>
   dplyr::mutate(value = 
                   value |>
                   stringr::str_replace_all(",","\\.") |>
                   as.numeric())
 
-data_micro <- deedR::getdata(var_id = ids, ag = "micro", period = "all", add_labels = TRUE) |>
+data_micro <- deedR::getdata(var_id = ids, ag = "micro", period = "all", add_names = TRUE) |>
   dplyr::mutate(value = 
                   value |>
                   stringr::str_replace_all(",","\\.") |>
                   as.numeric())
 
 data_estado <- 
-  deedR::getdata(var_id = ids, ag = "estado", period = "all", add_labels = TRUE) |>
+  deedR::getdata(var_id = ids, ag = "estado", period = "all", add_names = TRUE) |>
   dplyr::mutate(value = 
                   value |>
                   stringr::str_replace_all(",","\\.") |>

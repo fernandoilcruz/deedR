@@ -372,7 +372,9 @@ aggregations. For municipalities, latitude and longitude are also
 available.</p></li>
 <li><p><code>geoagregcomp</code>: The geographic aggregation
 composition. Municipalities are the minimum aggregation level
-available</p></li>
+available.</p></li>
+<li><p><code>geoagregall2</code>: The different geographic aggregations
+for all municipalites in Rio Grande do Sul.</p></li>
 <li><p><code>getdata</code>: The package’s main function. It allows the
 user to download data from DEEDados API using R.</p></li>
 <li><p><code>source</code>: Lists DEEDados sources</p></li>
@@ -401,7 +403,7 @@ shiny app, access: <a href="https://idesevis.dee.rs.gov.br/" class="uri">https:/
 the city of Gramado.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;fernandoilcruz/deedR&quot;</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; Skipping install of &#39;deedR&#39; from a github remote, the SHA1 (bab6a2c6) has not changed since last install.</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; Skipping install of &#39;deedR&#39; from a github remote, the SHA1 (614514fb) has not changed since last install.</span></span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt;   Use `force = TRUE` to force installation</span></span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a></span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>deedR<span class="sc">::</span><span class="fu">geoagreg</span>(<span class="at">ag =</span> <span class="st">&quot;corede&quot;</span>)</span>
@@ -498,32 +500,32 @@ revision.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">help</span>(<span class="at">package =</span> <span class="st">&quot;deedR&quot;</span>, <span class="st">&quot;getdata&quot;</span>)</span></code></pre></div>
 <p>Choose the appropriate options and download the data:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>data_muni <span class="ot">&lt;-</span>  </span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  deedR<span class="sc">::</span><span class="fu">getdata</span>(<span class="at">var_id =</span> ids, <span class="at">ag =</span> <span class="st">&quot;municipio&quot;</span>, <span class="at">period =</span> <span class="st">&quot;all&quot;</span>, <span class="at">add_labels =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  deedR<span class="sc">::</span><span class="fu">getdata</span>(<span class="at">var_id =</span> ids, <span class="at">ag =</span> <span class="st">&quot;municipio&quot;</span>, <span class="at">period =</span> <span class="st">&quot;all&quot;</span>, <span class="at">add_names =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">value =</span> </span>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>                  value <span class="sc">|&gt;</span></span>
 <span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>                  stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">&quot;,&quot;</span>,<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>) <span class="sc">|&gt;</span></span>
 <span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>                  <span class="fu">as.numeric</span>())</span>
 <span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  </span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>data_corede <span class="ot">&lt;-</span> deedR<span class="sc">::</span><span class="fu">getdata</span>(<span class="at">var_id =</span> ids, <span class="at">ag =</span> <span class="st">&quot;corede&quot;</span>, <span class="at">period =</span> <span class="st">&quot;all&quot;</span>, <span class="at">add_labels =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>data_corede <span class="ot">&lt;-</span> deedR<span class="sc">::</span><span class="fu">getdata</span>(<span class="at">var_id =</span> ids, <span class="at">ag =</span> <span class="st">&quot;corede&quot;</span>, <span class="at">period =</span> <span class="st">&quot;all&quot;</span>, <span class="at">add_names =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
 <span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">value =</span> </span>
 <span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>                  value <span class="sc">|&gt;</span></span>
 <span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>                  stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">&quot;,&quot;</span>,<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>) <span class="sc">|&gt;</span></span>
 <span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>                  <span class="fu">as.numeric</span>())</span>
 <span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a></span>
-<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>data_meso <span class="ot">&lt;-</span> deedR<span class="sc">::</span><span class="fu">getdata</span>(<span class="at">var_id =</span> ids, <span class="at">ag =</span> <span class="st">&quot;meso&quot;</span>, <span class="at">period =</span> <span class="st">&quot;all&quot;</span>, <span class="at">add_labels =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>data_meso <span class="ot">&lt;-</span> deedR<span class="sc">::</span><span class="fu">getdata</span>(<span class="at">var_id =</span> ids, <span class="at">ag =</span> <span class="st">&quot;meso&quot;</span>, <span class="at">period =</span> <span class="st">&quot;all&quot;</span>, <span class="at">add_names =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
 <span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">value =</span> </span>
 <span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>                  value <span class="sc">|&gt;</span></span>
 <span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>                  stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">&quot;,&quot;</span>,<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>) <span class="sc">|&gt;</span></span>
 <span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>                  <span class="fu">as.numeric</span>())</span>
 <span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a></span>
-<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>data_micro <span class="ot">&lt;-</span> deedR<span class="sc">::</span><span class="fu">getdata</span>(<span class="at">var_id =</span> ids, <span class="at">ag =</span> <span class="st">&quot;micro&quot;</span>, <span class="at">period =</span> <span class="st">&quot;all&quot;</span>, <span class="at">add_labels =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>data_micro <span class="ot">&lt;-</span> deedR<span class="sc">::</span><span class="fu">getdata</span>(<span class="at">var_id =</span> ids, <span class="at">ag =</span> <span class="st">&quot;micro&quot;</span>, <span class="at">period =</span> <span class="st">&quot;all&quot;</span>, <span class="at">add_names =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
 <span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">value =</span> </span>
 <span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a>                  value <span class="sc">|&gt;</span></span>
 <span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a>                  stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">&quot;,&quot;</span>,<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>) <span class="sc">|&gt;</span></span>
 <span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a>                  <span class="fu">as.numeric</span>())</span>
 <span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a></span>
 <span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a>data_estado <span class="ot">&lt;-</span> </span>
-<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a>  deedR<span class="sc">::</span><span class="fu">getdata</span>(<span class="at">var_id =</span> ids, <span class="at">ag =</span> <span class="st">&quot;estado&quot;</span>, <span class="at">period =</span> <span class="st">&quot;all&quot;</span>, <span class="at">add_labels =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a>  deedR<span class="sc">::</span><span class="fu">getdata</span>(<span class="at">var_id =</span> ids, <span class="at">ag =</span> <span class="st">&quot;estado&quot;</span>, <span class="at">period =</span> <span class="st">&quot;all&quot;</span>, <span class="at">add_names =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
 <span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">value =</span> </span>
 <span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a>                  value <span class="sc">|&gt;</span></span>
 <span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a>                  stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="st">&quot;,&quot;</span>,<span class="st">&quot;</span><span class="sc">\\</span><span class="st">.&quot;</span>) <span class="sc">|&gt;</span></span>

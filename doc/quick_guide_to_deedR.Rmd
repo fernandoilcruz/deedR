@@ -37,7 +37,9 @@ The current version of deedR contains the following functions for users:
 
 * `geoagreg`: Checks ID and name of geographic aggregations. For municipalities, latitude and longitude are also available.
 
-* `geoagregcomp`: The geographic aggregation composition. Municipalities are the minimum aggregation level available
+* `geoagregcomp`: The geographic aggregation composition. Municipalities are the minimum aggregation level available.
+
+* `geoagregall2`: The different geographic aggregations for all municipalites in Rio Grande do Sul.
 
 * `getdata`: The package's main function. It allows the user to download data from DEEDados API using R.
 
@@ -108,32 +110,32 @@ Choose the appropriate options and download the data:
 
 ```{r}
 data_muni <-  
-  deedR::getdata(var_id = ids, ag = "municipio", period = "all", add_labels = TRUE) |>
+  deedR::getdata(var_id = ids, ag = "municipio", period = "all", add_names = TRUE) |>
   dplyr::mutate(value = 
                   value |>
                   stringr::str_replace_all(",","\\.") |>
                   as.numeric())
   
-data_corede <- deedR::getdata(var_id = ids, ag = "corede", period = "all", add_labels = TRUE) |>
+data_corede <- deedR::getdata(var_id = ids, ag = "corede", period = "all", add_names = TRUE) |>
   dplyr::mutate(value = 
                   value |>
                   stringr::str_replace_all(",","\\.") |>
                   as.numeric())
 
-data_meso <- deedR::getdata(var_id = ids, ag = "meso", period = "all", add_labels = TRUE) |>
+data_meso <- deedR::getdata(var_id = ids, ag = "meso", period = "all", add_names = TRUE) |>
   dplyr::mutate(value = 
                   value |>
                   stringr::str_replace_all(",","\\.") |>
                   as.numeric())
 
-data_micro <- deedR::getdata(var_id = ids, ag = "micro", period = "all", add_labels = TRUE) |>
+data_micro <- deedR::getdata(var_id = ids, ag = "micro", period = "all", add_names = TRUE) |>
   dplyr::mutate(value = 
                   value |>
                   stringr::str_replace_all(",","\\.") |>
                   as.numeric())
 
 data_estado <- 
-  deedR::getdata(var_id = ids, ag = "estado", period = "all", add_labels = TRUE) |>
+  deedR::getdata(var_id = ids, ag = "estado", period = "all", add_names = TRUE) |>
   dplyr::mutate(value = 
                   value |>
                   stringr::str_replace_all(",","\\.") |>
