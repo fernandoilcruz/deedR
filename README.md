@@ -13,6 +13,6 @@ deedR is an R package for downloading socioeconomic data for the state of Rio Gr
 ```r
 library(devtools)
 
-devtools::install_github("fernandoilcruz/deedR")
+devtools::install_github("fernandoilcruz/deedR", build_vignettes = TRUE)
 ```
 
