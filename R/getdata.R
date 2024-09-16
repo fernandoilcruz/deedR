@@ -2,16 +2,16 @@
 #'
 #' @description This function allows the user to download data from DEEDados API using R.
 #'
-#' @param var_id The variable's ID.
-#' @param ag The regional aggregation. There are  five valid options:
+#' @param var_id Numeric. The variable's ID.
+#' @param ag Character. The regional aggregation. There are  five valid options:
 #' * "municipio" (the default): for municipalities.
 #' * "corede": for coredes, a state-specific planning regionalization.
 #' * "meso": for IBGE's mesoregions.
 #' * "micro": for IBGE's microregions.
 #' * "estado": for the state of Rio Grande do Sul.
 #' @param period The year to consult. It allows single string (ex:2010), vector(ex:c(2010,2022) or "all")
-#' @param sort If the user wants to sort from "ASC" for ascendent order or "DESC" for descendent order. Default is "ASC".
-#' @param add_names Allows the user to add the respective names to the id codes results
+#' @param sort Charater. If the user wants to sort from "ASC" for ascendent order or "DESC" for descendent order. Default is "ASC".
+#' @param add_names Logical. Allows the user to add the respective names to the id codes results
 #'
 #' @return a data.frame
 #'
@@ -38,6 +38,15 @@ getdata <-
            period = "all",
            sort = "ASC",
            add_names = FALSE){
+
+    #Treats period
+    period <- ifelse(period == "all",as.character(period),as.numeric(period))
+
+    #check arguments
+    checkmate::assert_character(ag)
+    checkmate::assert_character(sort)
+    checkmate::assert_numeric(var_id)
+    checkmate::assert_logical(add_names)
 
 
     #check available arguments

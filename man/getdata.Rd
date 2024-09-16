@@ -7,9 +7,9 @@
 getdata(var_id, ag, period = "all", sort = "ASC", add_names = FALSE)
 }
 \arguments{
-\item{var_id}{The variable's ID.}
+\item{var_id}{Numeric. The variable's ID.}
 
-\item{ag}{The regional aggregation. There are  five valid options:
+\item{ag}{Character. The regional aggregation. There are  five valid options:
 \itemize{
 \item "municipio" (the default): for municipalities.
 \item "corede": for coredes, a state-specific planning regionalization.
@@ -20,9 +20,9 @@ getdata(var_id, ag, period = "all", sort = "ASC", add_names = FALSE)
 
 \item{period}{The year to consult. It allows single string (ex:2010), vector(ex:c(2010,2022) or "all")}
 
-\item{sort}{If the user wants to sort from "ASC" for ascendent order or "DESC" for descendent order. Default is "ASC".}
+\item{sort}{Charater. If the user wants to sort from "ASC" for ascendent order or "DESC" for descendent order. Default is "ASC".}
 
-\item{add_names}{Allows the user to add the respective names to the id codes results}
+\item{add_names}{Logical. Allows the user to add the respective names to the id codes results}
 }
 \value{
 a data.frame
