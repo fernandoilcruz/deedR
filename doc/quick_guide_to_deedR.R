@@ -98,7 +98,8 @@ my_data <-
            "var_id" = "var_id",
            "var_name" = "var_name",
            "year" = "year",
-           "unit" = "unit",
+           "um_name" = "um_name",
+           "um_acronym" = "um_acronym",
            "note" = "note")
   ) |> 
   dplyr::rename(value_micro = value) |>
@@ -109,7 +110,8 @@ my_data <-
            "var_id" = "var_id",
            "var_name" = "var_name",
            "year" = "year",
-           "unit" = "unit",
+            "um_name" = "um_name",
+           "um_acronym" = "um_acronym",
            "note" = "note")
   ) |> 
   dplyr::rename(value_meso = value) |>
@@ -120,7 +122,8 @@ my_data <-
            "var_id" = "var_id",
            "var_name" = "var_name",
            "year" = "year",
-           "unit" = "unit",
+           "um_name" = "um_name",
+           "um_acronym" = "um_acronym",
            "note" = "note")
   ) |>
   dplyr::rename(value_corede = value) |>
@@ -131,7 +134,8 @@ my_data <-
            "var_id" = "var_id",
            "var_name" = "var_name",
            "year" = "year",
-           "unit" = "unit",
+            "um_name" = "um_name",
+           "um_acronym" = "um_acronym",
            "note" = "note")
   ) |>
   dplyr::rename(value_estado = value) |>
@@ -166,6 +170,6 @@ idese_plot <-
                    subtitle = "Idese and components")
 
 #Plot it!
-idese_plot
+print(idese_plot)
 
 
