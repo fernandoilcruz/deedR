@@ -249,7 +249,7 @@ idese_plot <-
                    subtitle = "Idese and components")
 
 #Plot it!
-idese_plot
+#idese_plot
 
 ```
 
