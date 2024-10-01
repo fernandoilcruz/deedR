@@ -90,7 +90,14 @@ getdata <-
                     "value" = "valor",
                     "unit" = "un_medida",
                     "note" = "nota") |>
-      dplyr::select(var_id,geo_id,year,value, unit, note)
+      dplyr::select(var_id,geo_id,year,value, unit, note) |>
+      dplyr::mutate(
+        year = as.integer(year),
+        value = value |>
+          stringr::str_remove_all("\\.") |>
+          stringr::str_replace_all("\\,",replacement = "\\.") |>
+          as.numeric()
+      )
 
 
     #add names
