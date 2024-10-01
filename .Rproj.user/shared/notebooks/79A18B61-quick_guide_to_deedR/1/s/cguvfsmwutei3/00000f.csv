@@ -1,0 +1,44 @@
+"0"," ) |> 
+  dplyr::rename(value_micro = value) |>
+  dplyr::left_join(
+    data_meso,
+    by = c(""geo_id_meso"" = ""geo_id"",
+           ""geo_name_meso"" = ""geo_name"",
+           ""var_id"" = ""var_id"",
+           ""var_name"" = ""var_name"",
+           ""year"" = ""year"",
+           ""unit"" = ""unit"",
+           ""note"" = ""note"")
+  ) |> 
+  dplyr::rename(value_meso = value) |>
+  dplyr::left_join(
+    data_corede,
+    by = c(""geo_id_corede"" = ""geo_id"",
+           ""geo_name_corede"" = ""geo_name"",
+           ""var_id"" = ""var_id"",
+           ""var_name"" = ""var_name"",
+           ""year"" = ""year"",
+           ""unit"" = ""unit"",
+           ""note"" = ""note"")
+  ) |>
+  dplyr::rename(value_corede = value) |>
+  dplyr::left_join(
+    data_estado,
+    by = c(""geo_id_estado"" = ""geo_id"",
+           ""geo_name_estado"" = ""geo_name"",
+           ""var_id"" = ""var_id"",
+           ""var_name"" = ""var_name"",
+           ""year"" = ""year"",
+           ""unit"" = ""unit"",
+           ""note"" = ""note"")
+  ) |>
+  dplyr::rename(value_estado = value) |>
+  dplyr::filter(geo_name_municipio == ""Gramado"")
+"
+"1","[1m[33mError[39m in `dplyr::left_join()`:[22m
+[38;5;252m[33m![38;5;252m Join columns in `x` must be present in the data.
+[31m✖[38;5;252m Problem with `unit`.[39m
+Backtrace:
+[90m  1. [39m[1mdplyr[22m::filter(...)
+[90m 10. [39m[1m[94mdplyr:::left_join.data.frame([39m[22m...[1m[94m)[39m[22m
+"

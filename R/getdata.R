@@ -104,7 +104,10 @@ getdata <-
                          by = c("var_id" = "var_id")) |>
         dplyr::left_join(geos1,
                          by = c("geo_id" = "geo_id")) |>
-        dplyr::select(var_id, var_name, geo_id, geo_name, year, value, unit, note)
+        dplyr::left_join(um(),
+                         by = c("unit" = "um_id")) |>
+
+        dplyr::select(var_id, var_name, geo_id, geo_name, year, value, um_name, um_acronym, note)
     }
 
     return(x)
