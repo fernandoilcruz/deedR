@@ -1,0 +1,9 @@
+"0","data_muni <-  
+  deedR::getdata(var_id = ids, ag = ""municipio"", period = ""all"", add_names = TRUE) |>
+  dplyr::mutate(value = 
+                  value |>
+                  stringr::str_replace_all("","",""\\."") |>
+                  as.numeric())
+"
+"2","Erro: objeto 'ids' não encontrado
+"

@@ -1,0 +1,5 @@
+"0","#Development version of the package"
+"0","library(devtools)"
+"0","devtools::install_github(""fernandoilcruz/deedR"")"
+"0","#Load the package"
+"0","library(deedR)"
