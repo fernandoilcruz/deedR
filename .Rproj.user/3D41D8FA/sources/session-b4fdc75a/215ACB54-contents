@@ -1,0 +1,259 @@
+---
+title: "A quick guide to deedR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{A quick guide to deedR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  fig.width = 10, 
+  fig.height = 10,
+  comment = "#>"
+)
+```
+
+## Why an R package?
+
+[DEEDados](http://deedados.planejamento.rs.gov.br/feedados/) is a comprehensive repository of socioeconomic data for the state of Rio Grande do Sul, maintained by the Department of Economics and Statistics at the Planning and Budget Office at State Government of Rio Grande do Sul ([DEE/SPGG-RS](https://dee.rs.gov.br/inicial)). Besides DEEDados interface being extremely intuitive and user-friendly for data downloads, the API turned this task even faster and more efficient. Data analysts interested in the state's multiple sets of socioeconomic data have now a more appropriate tool to work with. R users, in particular, can benefit from this using deedR, an R package that provides an easy way to access the DEEDados API.
+
+## Installation via GitHub
+
+```{r setup, warning = FALSE, message = FALSE, results = FALSE, echo = TRUE}
+#Development version of the package
+library(devtools)
+devtools::install_github("fernandoilcruz/deedR")
+#Load the package
+library(deedR)
+```
+
+
+## Main Functions
+
+The current version of deedR contains the following functions for users:
+
+* `geoagreg`: Checks ID and name of geographic aggregations. For municipalities, latitude and longitude are also available.
+
+* `geoagregcomp`: The geographic aggregation composition. Municipalities are the minimum aggregation level available.
+
+* `geoagregall2`: The different geographic aggregations for all municipalites in Rio Grande do Sul.
+
+* `getdata`: The package's main function. It allows the user to download data from DEEDados API using R.
+
+* `source`: Lists DEEDados sources
+
+* `um`: Lists unities of measurement
+
+* `vardetails`: Checks the details of a variable, by searching for it's ID.
+
+* `vars`: Lists, filters and sorts variables' ID and names.
+
+
+## deedR in practice
+
+### Example 1: Compare IDESE time series from multiple municipalities to their macroregion, mesoregion and corede
+
+Idese is the acronym for Índice de Desenvolvimento Socioeconômico, a synthetic indicator, which signals the socioeconomic situation of the state of Rio Grande do Sul and it's regions and municipalities, considering quantitative and qualitative aspects of the development process, articulating information regarding education, income and health. Learn more about Idese [here](https://dee.rs.gov.br/idese) (Portuguese only). For a shiny app, access: https://idesevis.dee.rs.gov.br/
+
+#### a) Search for the information you need and download it
+Let's look up for all municipalities in Corede Hortênsias, where lies the city of Gramado.
+```{r}
+library(devtools)
+devtools::install_github("fernandoilcruz/deedR")
+
+deedR::geoagreg(ag = "corede")
+```
+
+Corede Hortênsias has parameter id = 7.
+
+Which municipalities belong to this Corede?
+
+```{r}
+deedR::geoagregcomp(ag = "corede", geo_id = 7)
+```
+
+As we see, the Corede Hortênsias is composed by seven (just a coincidence) municipalities.
+
+Now, lets dig in the Idese informations, ruling out the 2013 revision.
+
+```{r}
+vars_corede_ex_2013 <-
+  deedR::vars(contains = "Idese") |> 
+  dplyr::filter(stringr::str_detect(string = var_name, pattern = "2013", negate = TRUE))
+
+vars_corede_ex_2013
+```
+
+Collect the list of variables id's and view the details:
+
+```{r}
+ids <- 
+  vars_corede_ex_2013 |>
+  dplyr::select(var_id) |> 
+  dplyr::pull()
+  
+
+deedR::vardetails(var_id = ids)
+```
+
+Ok. Now we know what we want, let us download the data.
+
+Take a closer look to the function with help:
+```{r eval = FALSE}
+help(package = "deedR", "getdata")
+```
+
+Choose the appropriate options and download the data:
+
+```{r}
+data_muni <-  
+  deedR::getdata(var_id = ids, ag = "municipio", period = "all", add_names = TRUE) |>
+  dplyr::mutate(value = 
+                  value |>
+                  stringr::str_replace_all(",","\\.") |>
+                  as.numeric())
+  
+data_corede <- deedR::getdata(var_id = ids, ag = "corede", period = "all", add_names = TRUE) |>
+  dplyr::mutate(value = 
+                  value |>
+                  stringr::str_replace_all(",","\\.") |>
+                  as.numeric())
+
+data_meso <- deedR::getdata(var_id = ids, ag = "meso", period = "all", add_names = TRUE) |>
+  dplyr::mutate(value = 
+                  value |>
+                  stringr::str_replace_all(",","\\.") |>
+                  as.numeric())
+
+data_micro <- deedR::getdata(var_id = ids, ag = "micro", period = "all", add_names = TRUE) |>
+  dplyr::mutate(value = 
+                  value |>
+                  stringr::str_replace_all(",","\\.") |>
+                  as.numeric())
+
+data_estado <- 
+  deedR::getdata(var_id = ids, ag = "estado", period = "all", add_names = TRUE) |>
+  dplyr::mutate(value = 
+                  value |>
+                  stringr::str_replace_all(",","\\.") |>
+                  as.numeric())
+```
+
+  
+Lastly, to gather data into the same dataframe and compare them, we need a *From-To* table. We can obtain it through the function `geoagregall2`. Since the data we are interested in start in 2013, we're going to use the default option, that leaves the argument `period` in blank. Also, we're going to hide the period column.
+
+
+```{r}
+ft_table <-
+  deedR::geoagregall2() |>
+  dplyr::select(-period)
+
+ft_table
+```
+
+
+#### b) Get the raw data, transform it and analyze it.
+
+Now let's play a little bit with the data we collected. We're going to build a dataframe that gathers all the IDESE information for the city of Gramado in one place.
+
+```{r}
+
+my_data <- 
+  ft_table |>
+  dplyr::left_join(
+    data_muni,
+    by = c("geo_id_municipio" = "geo_id",
+           "geo_name_municipio" = "geo_name")
+  ) |>
+  dplyr::rename(value_municipio = value) |> 
+  dplyr::left_join(
+    data_micro,
+    by = c("geo_id_micro" = "geo_id",
+           "geo_name_micro" = "geo_name",
+           "var_id" = "var_id",
+           "var_name" = "var_name",
+           "year" = "year",
+           "unit" = "unit",
+           "note" = "note")
+  ) |> 
+  dplyr::rename(value_micro = value) |>
+  dplyr::left_join(
+    data_meso,
+    by = c("geo_id_meso" = "geo_id",
+           "geo_name_meso" = "geo_name",
+           "var_id" = "var_id",
+           "var_name" = "var_name",
+           "year" = "year",
+           "unit" = "unit",
+           "note" = "note")
+  ) |> 
+  dplyr::rename(value_meso = value) |>
+  dplyr::left_join(
+    data_corede,
+    by = c("geo_id_corede" = "geo_id",
+           "geo_name_corede" = "geo_name",
+           "var_id" = "var_id",
+           "var_name" = "var_name",
+           "year" = "year",
+           "unit" = "unit",
+           "note" = "note")
+  ) |>
+  dplyr::rename(value_corede = value) |>
+  dplyr::left_join(
+    data_estado,
+    by = c("geo_id_estado" = "geo_id",
+           "geo_name_estado" = "geo_name",
+           "var_id" = "var_id",
+           "var_name" = "var_name",
+           "year" = "year",
+           "unit" = "unit",
+           "note" = "note")
+  ) |>
+  dplyr::rename(value_estado = value) |>
+  dplyr::filter(geo_name_municipio == "Gramado")
+
+```
+
+
+#### c) Use your preferred plotting package to visualize it
+Now, let's make some diagrams to understand the behaviour of each indicator in time. In our case, we will use [ggplot2]("https://ggplot2.tidyverse.org/"). Before we start, let's transform our wide data to long format.
+
+```{r}
+library(ggplot2)
+#Transform the data to better fit our ggplot
+idese <-
+  my_data |>
+  dplyr::mutate(year = paste0("01-01-",year) |> lubridate::dmy()) |>
+  tidyr::gather(
+    key = agregation,
+    value = value,
+    value_municipio,value_micro,value_meso,value_corede,value_estado
+  ) |>
+  dplyr::mutate(agregation = stringr::str_remove_all(agregation,"value_"))
+
+#Build the graphs
+idese_plot <-
+  idese |>
+  ggplot2::ggplot(
+    ggplot2::aes(x = year,
+                 y = value,
+                 colour = agregation)
+  ) +
+  ggplot2::geom_line() +
+  ggplot2::facet_wrap(~var_name, scales = "free_y", labeller = ggplot2::label_wrap_gen(width=20)) +
+  ggplot2::theme(strip.text = ggplot2::element_text(size=8)) +
+  ggplot2::ggtitle(label = "Gramado",
+                   subtitle = "Idese and components")
+
+#Plot it!
+#idese_plot
+
+```
+
+
+### Example 2: Calculate descriptive statistics on Establishments data from RAIS in each Corede
+
+to be implemented...
